@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Individual Contribution — NLP Knowledge Repository</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">NLP <span>Knowledge Repository</span> · CCE-1</a>
+  <button class="navtoggle">Menu</button>
+  <ul>
+    <li><a href="index.html" class="link">Home</a></li>
+    <li><a href="section-a.html" class="link">A · Concepts</a></li>
+    <li><a href="section-b.html" class="link">B · Comparisons</a></li>
+    <li><a href="section-c.html" class="link">C · Workflows</a></li>
+    <li><a href="section-d.html" class="link">D · Applications</a></li>
+    <li><a href="section-e.html" class="link">E · Research</a></li>
+    <li><a href="sustainability.html" class="link">Sustainability</a></li>
+    <li><a href="contribution.html" class="link active">Contributions</a></li>
+    <li><a href="https://github.com/musanisameer668-creator/NPL-HOSPITAL-CHATBOT" target="_blank" rel="noopener" class="gh-btn"><svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></li>
+  </ul>
+</nav>
+
+<div class="pagehead">
+  <div class="eyebrow">Repository Structure · Individual Contribution</div>
+  <h1><span class="sec-num">§</span>Individual Contribution &amp; Reflection<span class="mr">वैयक्तिक योगदान</span></h1>
+  <p class="lede">Edit the names/roles below to match your actual group. Each member needs at least 2 concept cards, 1 comparison, 1 workflow component, and 1 reflection note — write your reflection yourself, it's assessed individually.</p>
+</div>
+
+<main>
+
+  <table class="contrib-table">
+    <tr><th>Member</th><th>Concept cards</th><th>Comparative analysis</th><th>Workflow component</th><th>Reflection note</th></tr>
+    <tr><td><em>Mohammad Sameer Musani</em></td><td>Tokenization, TF-IDF</td><td>TF vs TF-IDF</td><td>Feature Engineering Pipeline</td><td>See below</td></tr>
+    <tr><td><em>Dhairya Siyal</em></td><td>Lemmatization, FastText</td><td>Word2Vec vs FastText</td><td>Text-to-Vector Transformation</td><td>See below</td></tr>
+  </table>
+
+  <div class="reflection">
+    <h4><em>Mohammad Sameer Musani</em> — Reflection Note</h4>
+    <p>Going into this activity, I thought preprocessing would be the "easy" part of NLP — something we'd breeze through before getting to the more interesting feature engineering and embeddings. Working through it for our hospital chatbot in Marathi changed that pretty quickly. The moment I tried tokenizing a real patient-style query like "मला अपॉइंटमेंट बुक करायची आहे," it was obvious that the simple whitespace-splitting approach we'd use for English doesn't hold up well against Marathi's conjunct characters and heavy suffixing. A word like "करायची" carries grammatical information that a naive stemmer would just mangle, and that's when lemmatization stopped being an abstract textbook comparison and started feeling like an actual design decision we'd have to get right if this chatbot were ever going to work for real patients.</p>
+    <p>What stood out most was how much of the "hard part" of this project isn't the modelling — it's that good Marathi NLP resources (stemmers, stop-word lists, pretrained embeddings) are so much thinner than what's available for English. That's not something I appreciated before this activity. If I were extending this into the real chatbot, I'd want to spend real time building or sourcing a proper Marathi stop-word list and testing lemmatization against actual patient queries rather than assuming general-purpose tools will just work. Going into the next module on POS tagging and parsing, I'm going in with a lot more respect for how much language-specific groundwork has to happen before any of the "smarter" techniques can be trusted.</p>
+  </div>
+  <div class="reflection">
+    <h4><em>Dhairya Siyal</em> — Reflection Note</h4>
+    <p>My biggest takeaway from this activity was how differently TF-IDF and word embeddings behave once you actually try to reason about them in the context of a real problem instead of a toy dataset. Building out the Word2Vec vs FastText comparison for our chatbot made me realize why FastText actually matters for a language like Marathi — Word2Vec treats every inflected form of a word as a completely separate token, which meant something like "बुक" and its related forms would end up with unrelated vectors unless we accounted for sub-word structure. That's a subtle point that's easy to miss if you only ever study these techniques on English examples, where inflection isn't nearly as aggressive.</p>
+    <p>Working on the feature engineering pipeline also made me think differently about what "understanding" a sentence actually requires. It's tempting to assume more data or a fancier model automatically fixes a weak pipeline, but seeing how much TF-IDF's quality depends on having a decent corpus of real patient queries in the first place made me realize the groundwork — cleaning, tokenizing, and building the right vocabulary — matters just as much as the technique on top of it. If I carried this project further, I'd want to actually collect a small sample of real, anonymized patient queries rather than relying on the handful of examples we used here, since that would expose problems our current examples probably don't. Heading into POS tagging and parsing next, I want to apply that same instinct — test on real, messy language early rather than clean examples that hide the hard parts.</p>
+  </div>
+
+  <div class="pagenav">
+    <a class="prev" href="sustainability.html"><span class="lbl">← Back</span>Sustainability &amp; Impact</a>
+    <a class="next" href="index.html"><span class="lbl">Home →</span>Back to top</a>
+  </div>
+
+</main>
+
+<footer>
+  <div>Shah &amp; Anchor Kutchhi Engineering College · NLP (CMCOR1PE301.1) · CCE Activity I — Knowledge Artifact Repository</div>
+  <div style="margin-top:10px;">Prepared by <strong>Mohammad Sameer Musani</strong> &amp; <strong>Dhairya Siyal</strong> · Group of 2</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

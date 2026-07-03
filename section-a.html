@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section A · Concept Cards — NLP Knowledge Repository</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">NLP <span>Knowledge Repository</span> · CCE-1</a>
+  <button class="navtoggle">Menu</button>
+  <ul>
+    <li><a href="index.html" class="link">Home</a></li>
+    <li><a href="section-a.html" class="link active">A · Concepts</a></li>
+    <li><a href="section-b.html" class="link">B · Comparisons</a></li>
+    <li><a href="section-c.html" class="link">C · Workflows</a></li>
+    <li><a href="section-d.html" class="link">D · Applications</a></li>
+    <li><a href="section-e.html" class="link">E · Research</a></li>
+    <li><a href="sustainability.html" class="link">Sustainability</a></li>
+    <li><a href="contribution.html" class="link">Contributions</a></li>
+    <li><a href="https://github.com/musanisameer668-creator/NPL-HOSPITAL-CHATBOT" target="_blank" rel="noopener" class="gh-btn"><svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></li>
+  </ul>
+</nav>
+
+<div class="pagehead">
+  <div class="eyebrow">Repository Structure · Section A</div>
+  <h1><span class="sec-num">A ·</span>Concept Cards<span class="mr">संकल्पना पत्रके</span></h1>
+  <p class="lede">Every Week-1 concept, explained as a one-page artifact: what it is, why it's needed, how it works, its trade-offs, and how our hospital chatbot actually uses it.</p>
+</div>
+
+<main>
+
+  <div class="subgroup">1 · Text Preprocessing</div>
+  <div class="grid">
+
+    <div class="card">
+      <span class="tag">Preprocessing</span><h4>Sentence Segmentation</h4>
+      <dl>
+        <dt>Definition</dt><dd>Splitting a block of text into individual sentences.</dd>
+        <dt>Purpose</dt><dd>Lets the system handle each patient statement as one unit of intent.</dd>
+        <dt>Working principle</dt><dd>Detects boundary markers (।, ., ?, !) while avoiding false splits on abbreviations.</dd>
+        <dt>Advantages</dt><dd>Cleaner downstream parsing; enables multi-intent detection.</dd>
+        <dt>Limitations</dt><dd>Marathi punctuation and code-mixed text (Marathi+English) confuse rule-based splitters.</dd>
+      </dl>
+      <div class="ex"><span class="mr">"मला अपॉइंटमेंट हवी आहे. डॉक्टर कधी उपलब्ध आहेत?"</span> → 2 sentences → 2 separate intents queued.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Preprocessing</span><h4>Tokenization</h4>
+      <dl>
+        <dt>Definition</dt><dd>Breaking a sentence into words/sub-words (tokens).</dd>
+        <dt>Purpose</dt><dd>Converts free text into discrete units a model can count and score.</dd>
+        <dt>Working principle</dt><dd>Whitespace/regex splitting for English; for Marathi, script-aware or sub-word (SentencePiece) tokenizers handle agglutination.</dd>
+        <dt>Advantages</dt><dd>Foundational step — every later technique depends on it.</dd>
+        <dt>Limitations</dt><dd>Marathi's conjunct characters and suffix-heavy morphology break naive whitespace tokenizers.</dd>
+      </dl>
+      <div class="ex"><span class="mr">"अपॉइंटमेंट बुक करायची आहे"</span> → [अपॉइंटमेंट, बुक, करायची, आहे]</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Preprocessing</span><h4>Case Normalization</h4>
+      <dl>
+        <dt>Definition</dt><dd>Converting text to a single case (usually lowercase).</dd>
+        <dt>Purpose</dt><dd>Prevents "OPD" and "opd" being treated as different words.</dd>
+        <dt>Working principle</dt><dd>Simple string transformation; Marathi (Devanagari) has no case, so this mainly matters for code-mixed English tokens like "OPD", "ICU".</dd>
+        <dt>Advantages</dt><dd>Reduces vocabulary size, improves match rate.</dd>
+        <dt>Limitations</dt><dd>Can lose meaning for acronyms (e.g. "ICU" vs "icu" is fine, but proper nouns can suffer).</dd>
+      </dl>
+      <div class="ex">"OPD Timing?" → "opd timing?"</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Preprocessing</span><h4>Stop-word Removal</h4>
+      <dl>
+        <dt>Definition</dt><dd>Removing high-frequency, low-information words.</dd>
+        <dt>Purpose</dt><dd>Keeps only the words that carry the patient's actual intent.</dd>
+        <dt>Working principle</dt><dd>Filters tokens against a stop-word list (आहे, ला, आणि, is, the, a…).</dd>
+        <dt>Advantages</dt><dd>Shrinks feature space; speeds up intent classification.</dd>
+        <dt>Limitations</dt><dd>Marathi stop-word lists are less standardized than English; over-removal can strip negation words and flip meaning.</dd>
+      </dl>
+      <div class="ex"><span class="mr">"मला अपॉइंटमेंट हवी आहे"</span> → [अपॉइंटमेंट, हवी]</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Preprocessing</span><h4>Stemming</h4>
+      <dl>
+        <dt>Definition</dt><dd>Chopping word suffixes to reach a crude root form.</dd>
+        <dt>Purpose</dt><dd>Groups variants of a word ("book", "booking", "booked") under one feature.</dd>
+        <dt>Working principle</dt><dd>Rule-based suffix stripping (e.g. Porter stemmer for English).</dd>
+        <dt>Advantages</dt><dd>Fast, no dictionary needed.</dd>
+        <dt>Limitations</dt><dd>Produces non-words; Marathi's rich inflection makes rule-based stemmers unreliable without a dedicated Marathi stemmer.</dd>
+      </dl>
+      <div class="ex">"booking" / "booked" → "book"</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Preprocessing</span><h4>Lemmatization</h4>
+      <dl>
+        <dt>Definition</dt><dd>Reducing a word to its dictionary base form using grammar/vocabulary.</dd>
+        <dt>Purpose</dt><dd>Same goal as stemming but keeps the result a valid word.</dd>
+        <dt>Working principle</dt><dd>Uses POS tags and a morphological dictionary (e.g. Marathi WordNet).</dd>
+        <dt>Advantages</dt><dd>More accurate, linguistically valid output.</dd>
+        <dt>Limitations</dt><dd>Slower; needs a good Marathi lexical resource, which is scarcer than English ones.</dd>
+      </dl>
+      <div class="ex"><span class="mr">"करायची" → "करणे"</span> (base verb "to do")</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Preprocessing</span><h4>Noise Removal</h4>
+      <dl>
+        <dt>Definition</dt><dd>Stripping non-content elements: HTML tags, emojis, extra symbols.</dd>
+        <dt>Purpose</dt><dd>Keeps only meaningful text for the model.</dd>
+        <dt>Working principle</dt><dd>Regex/pattern-based filtering.</dd>
+        <dt>Advantages</dt><dd>Reduces vocabulary pollution.</dd>
+        <dt>Limitations</dt><dd>Aggressive cleaning can remove useful signals like "🤕" indicating pain/urgency in a WhatsApp-style query.</dd>
+      </dl>
+      <div class="ex">"अपॉइंटमेंट हवी आहे!!! 🙏🙏" → "अपॉइंटमेंट हवी आहे"</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Preprocessing</span><h4>Text Cleaning</h4>
+      <dl>
+        <dt>Definition</dt><dd>The umbrella process combining the above steps into a single pipeline.</dd>
+        <dt>Purpose</dt><dd>Produces a consistent, model-ready version of raw patient input.</dd>
+        <dt>Working principle</dt><dd>Sequential application: segment → tokenize → normalize → destop → stem/lemmatize → denoise.</dd>
+        <dt>Advantages</dt><dd>Standardizes messy, real-world chat input.</dd>
+        <dt>Limitations</dt><dd>Over-cleaning can erase context a chatbot needs (e.g. urgency markers).</dd>
+      </dl>
+      <div class="ex">See the live pipeline demo on the <a href="index.html">home page</a> — that is this step, running on your input.</div>
+    </div>
+
+  </div>
+
+  <div class="subgroup">2 · Feature Engineering</div>
+  <div class="grid">
+
+    <div class="card">
+      <span class="tag">Feature Eng.</span><h4>Bag of Words (BoW)</h4>
+      <dl>
+        <dt>Definition</dt><dd>Represents text as word counts, ignoring order.</dd>
+        <dt>Purpose</dt><dd>Turns cleaned tokens into a numeric vector for classification.</dd>
+        <dt>Working principle</dt><dd>Builds a vocabulary; each document becomes a count vector over that vocabulary.</dd>
+        <dt>Advantages</dt><dd>Simple, fast, interpretable.</dd>
+        <dt>Limitations</dt><dd>Loses word order — "doctor available" and "available doctor" look identical.</dd>
+      </dl>
+      <div class="ex">Used as a baseline for our department-routing intent classifier.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Feature Eng.</span><h4>N-Grams</h4>
+      <dl>
+        <dt>Definition</dt><dd>Contiguous sequences of N words/characters.</dd>
+        <dt>Purpose</dt><dd>Captures local word order BoW loses.</dd>
+        <dt>Working principle</dt><dd>Slide a window of size N across tokens (bigrams, trigrams…).</dd>
+        <dt>Advantages</dt><dd>Captures phrases like "हृदयरोग तज्ञ" (cardiologist) as one unit.</dd>
+        <dt>Limitations</dt><dd>Vocabulary explodes quickly with larger N.</dd>
+      </dl>
+      <div class="ex">Bigram "हृदयरोग तज्ञ" routes directly to Cardiology, vs. the words scored separately.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Feature Eng.</span><h4>TF (Term Frequency)</h4>
+      <dl>
+        <dt>Definition</dt><dd>How often a term appears in a document, normalized by document length.</dd>
+        <dt>Purpose</dt><dd>Weights a word by its local importance.</dd>
+        <dt>Working principle</dt><dd>TF = (count of term) / (total terms in document).</dd>
+        <dt>Advantages</dt><dd>Simple and captures within-query emphasis.</dd>
+        <dt>Limitations</dt><dd>Common words like "आहे" still score high unless removed first.</dd>
+      </dl>
+      <div class="ex">"अपॉइंटमेंट" repeated in a long query scores higher, signalling booking intent.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Feature Eng.</span><h4>IDF (Inverse Document Frequency)</h4>
+      <dl>
+        <dt>Definition</dt><dd>Down-weights terms that appear across most documents.</dd>
+        <dt>Purpose</dt><dd>Distinguishes generic words from distinctive, topic-specific ones.</dd>
+        <dt>Working principle</dt><dd>IDF = log(total docs / docs containing the term).</dd>
+        <dt>Advantages</dt><dd>Highlights rare-but-informative words like a department name.</dd>
+        <dt>Limitations</dt><dd>Needs a representative corpus of past patient queries to compute well.</dd>
+      </dl>
+      <div class="ex">"बिलिंग" (billing) is rare across all logged queries → high IDF → strong signal for the billing intent.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Feature Eng.</span><h4>TF-IDF</h4>
+      <dl>
+        <dt>Definition</dt><dd>TF × IDF — combined weight balancing local frequency and global rarity.</dd>
+        <dt>Purpose</dt><dd>The default numeric representation for classical text classifiers.</dd>
+        <dt>Working principle</dt><dd>Multiplies the two prior scores per term, per document.</dd>
+        <dt>Advantages</dt><dd>Strong baseline; no training data needed beyond the corpus itself.</dd>
+        <dt>Limitations</dt><dd>Still ignores semantics — "doctor" and "physician" remain unrelated.</dd>
+      </dl>
+      <div class="ex">Our department-routing baseline: TF-IDF + logistic regression on 500 sample queries.</div>
+    </div>
+
+  </div>
+
+  <div class="subgroup">3 · Language Representation</div>
+  <div class="grid">
+
+    <div class="card">
+      <span class="tag">Representation</span><h4>One-Hot Encoding</h4>
+      <dl>
+        <dt>Definition</dt><dd>Each word as a sparse vector with a single 1 at its vocabulary index.</dd>
+        <dt>Purpose</dt><dd>The simplest way to make words machine-readable.</dd>
+        <dt>Working principle</dt><dd>Vector length = vocabulary size; one position is "hot".</dd>
+        <dt>Advantages</dt><dd>Trivial to implement, no training required.</dd>
+        <dt>Limitations</dt><dd>No notion of similarity — "अपॉइंटमेंट" and "भेट" (both mean "appointment") are unrelated vectors.</dd>
+      </dl>
+      <div class="ex">A 5,000-word hospital-query vocabulary → 5,000-dimension sparse vectors.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Representation</span><h4>Word Embeddings</h4>
+      <dl>
+        <dt>Definition</dt><dd>Dense, low-dimensional vectors that place similar-meaning words close together.</dd>
+        <dt>Purpose</dt><dd>Lets the chatbot generalize across synonyms and phrasing.</dd>
+        <dt>Working principle</dt><dd>Learned from co-occurrence patterns in large text corpora.</dd>
+        <dt>Advantages</dt><dd>Captures semantic similarity; smaller vectors than one-hot.</dd>
+        <dt>Limitations</dt><dd>Needs a large corpus; good pretrained Marathi embeddings are scarcer than English.</dd>
+      </dl>
+      <div class="ex">Embeddings place "अपॉइंटमेंट" near "भेट" and "वेळ बुक करणे" — so all route to the booking module.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Representation</span><h4>Word2Vec</h4>
+      <dl>
+        <dt>Definition</dt><dd>A neural method (CBOW/Skip-gram) that learns word embeddings from context.</dd>
+        <dt>Purpose</dt><dd>Produces reusable, general-purpose embeddings.</dd>
+        <dt>Working principle</dt><dd>Predicts a word from its neighbours (CBOW) or neighbours from a word (Skip-gram).</dd>
+        <dt>Advantages</dt><dd>Efficient to train; strong semantic structure (analogies).</dd>
+        <dt>Limitations</dt><dd>One fixed vector per word — can't tell "बँक" (bank/riverbank) apart by context.</dd>
+      </dl>
+      <div class="ex">Pretrained on Marathi Wikipedia/news to seed our intent classifier's embedding layer.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Representation</span><h4>FastText</h4>
+      <dl>
+        <dt>Definition</dt><dd>An extension of Word2Vec that represents words as bags of character n-grams.</dd>
+        <dt>Purpose</dt><dd>Handles morphologically rich languages and unseen words.</dd>
+        <dt>Working principle</dt><dd>A word's vector is the sum of its sub-word n-gram vectors.</dd>
+        <dt>Advantages</dt><dd>Critical for Marathi — handles inflected forms like "करायची"/"करायचं" as related.</dd>
+        <dt>Limitations</dt><dd>Larger model size; sub-word noise on very short words.</dd>
+      </dl>
+      <div class="ex">Recognizes unseen inflections of "बुक" (booking-related forms) via shared sub-word units.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Representation</span><h4>Contextual Embeddings</h4>
+      <dl>
+        <dt>Definition</dt><dd>Embeddings that change per-sentence based on surrounding context (e.g. BERT-style).</dd>
+        <dt>Purpose</dt><dd>Resolves ambiguity that static embeddings can't.</dd>
+        <dt>Working principle</dt><dd>A transformer encoder produces a different vector for a word depending on its sentence.</dd>
+        <dt>Advantages</dt><dd>State-of-the-art accuracy for intent and entity detection.</dd>
+        <dt>Limitations</dt><dd>Compute-heavy; needs a Marathi/multilingual model like MuRIL or IndicBERT.</dd>
+      </dl>
+      <div class="ex">Distinguishes "बिल" as "billing" vs. an unrelated sense, based on full sentence context.</div>
+    </div>
+
+  </div>
+
+  <div class="subgroup">4 · Language Models</div>
+  <div class="grid">
+
+    <div class="card">
+      <span class="tag">Language Models</span><h4>Statistical Language Models</h4>
+      <dl>
+        <dt>Definition</dt><dd>Models that predict word sequences using n-gram probabilities.</dd>
+        <dt>Purpose</dt><dd>Early approach to next-word prediction and text scoring.</dd>
+        <dt>Working principle</dt><dd>P(word | previous n-1 words) estimated by counting from a corpus.</dd>
+        <dt>Advantages</dt><dd>Lightweight, interpretable, fast to build.</dd>
+        <dt>Limitations</dt><dd>Poor long-range context; data sparsity for rare Marathi phrase combinations.</dd>
+      </dl>
+      <div class="ex">Autocomplete suggestions for common query starts like <span class="mr">"मला ... हवी आहे"</span>.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Language Models</span><h4>Neural Language Models</h4>
+      <dl>
+        <dt>Definition</dt><dd>RNN/LSTM-based models predicting text using learned dense representations.</dd>
+        <dt>Purpose</dt><dd>Better captures longer context than n-gram models.</dd>
+        <dt>Working principle</dt><dd>Sequentially processes tokens, maintaining a hidden state of prior context.</dd>
+        <dt>Advantages</dt><dd>Handles longer patient sentences with dependent clauses.</dd>
+        <dt>Limitations</dt><dd>Slower to train; struggles with very long sequences (vanishing gradient).</dd>
+      </dl>
+      <div class="ex">An LSTM intent classifier trained on logged Marathi/English chatbot conversations.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Language Models</span><h4>Transformer-based Representations</h4>
+      <dl>
+        <dt>Definition</dt><dd>Self-attention-based models (BERT, GPT-style) that weigh all words in a sentence simultaneously.</dd>
+        <dt>Purpose</dt><dd>Current state-of-the-art for understanding and generating text.</dd>
+        <dt>Working principle</dt><dd>Self-attention layers let every token attend to every other token, in parallel.</dd>
+        <dt>Advantages</dt><dd>Best accuracy; multilingual variants (IndicBERT, MuRIL) support Marathi directly.</dd>
+        <dt>Limitations</dt><dd>Heavy compute/memory; overkill for a lightweight FAQ-routing chatbot on limited hospital IT budgets.</dd>
+      </dl>
+      <div class="ex">Candidate backbone for a future v2 of our chatbot that also generates natural Marathi replies, not just routes queries.</div>
+    </div>
+
+  </div>
+
+  <div class="pagenav">
+    <a class="prev" href="index.html"><span class="lbl">← Back</span>Home</a>
+    <a class="next" href="section-b.html"><span class="lbl">Next →</span>Section B · Comparative Analysis</a>
+  </div>
+
+</main>
+
+<footer>
+  <div>Shah &amp; Anchor Kutchhi Engineering College · NLP (CMCOR1PE301.1) · CCE Activity I — Knowledge Artifact Repository</div>
+  <div style="margin-top:10px;">Prepared by <strong>Mohammad Sameer Musani</strong> &amp; <strong>Dhairya Siyal</strong> · Group of 2</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

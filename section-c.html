@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section C · Workflow Diagrams — NLP Knowledge Repository</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">NLP <span>Knowledge Repository</span> · CCE-1</a>
+  <button class="navtoggle">Menu</button>
+  <ul>
+    <li><a href="index.html" class="link">Home</a></li>
+    <li><a href="section-a.html" class="link">A · Concepts</a></li>
+    <li><a href="section-b.html" class="link">B · Comparisons</a></li>
+    <li><a href="section-c.html" class="link active">C · Workflows</a></li>
+    <li><a href="section-d.html" class="link">D · Applications</a></li>
+    <li><a href="section-e.html" class="link">E · Research</a></li>
+    <li><a href="sustainability.html" class="link">Sustainability</a></li>
+    <li><a href="contribution.html" class="link">Contributions</a></li>
+    <li><a href="https://github.com/musanisameer668-creator/NPL-HOSPITAL-CHATBOT" target="_blank" rel="noopener" class="gh-btn"><svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></li>
+  </ul>
+</nav>
+
+<div class="pagehead">
+  <div class="eyebrow">Repository Structure · Section C</div>
+  <h1><span class="sec-num">C ·</span>Workflow Diagrams<span class="mr">कार्यप्रवाह आकृती</span></h1>
+  <p class="lede">How a raw patient message actually moves through our chatbot, stage by stage.</p>
+</div>
+
+<main>
+
+  <div class="flow-title">1 · Complete Text Preprocessing Pipeline</div>
+  <div class="flow">
+    <div class="step"><span class="n">01</span><h5>Raw input</h5><p>Patient types query in Marathi/English/mixed script</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">02</span><h5>Sentence segmentation</h5><p>Split multi-intent messages</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">03</span><h5>Tokenization</h5><p>Break into words/sub-words</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">04</span><h5>Normalization</h5><p>Lowercase, denoise, destop</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">05</span><h5>Lemmatization</h5><p>Reduce to base word forms</p></div>
+  </div>
+
+  <div class="flow-title">2 · Feature Engineering Pipeline</div>
+  <div class="flow">
+    <div class="step"><span class="n">01</span><h5>Cleaned tokens</h5><p>Output of preprocessing pipeline</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">02</span><h5>N-gram extraction</h5><p>Capture key phrases (e.g. department names)</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">03</span><h5>TF-IDF scoring</h5><p>Weight terms by local + global importance</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">04</span><h5>Feature vector</h5><p>Fixed-length numeric representation</p></div>
+  </div>
+
+  <div class="flow-title">3 · Text-to-Vector Transformation → Intent Routing</div>
+  <div class="flow">
+    <div class="step"><span class="n">01</span><h5>Feature vector / embedding</h5><p>TF-IDF vector or FastText embedding</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">02</span><h5>Classifier</h5><p>Predicts intent: booking / timing / doctor / billing / emergency</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">03</span><h5>Response module</h5><p>Fetches the matching answer or routes to reception staff</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">04</span><h5>Reply in Marathi</h5><p>Chatbot answers the patient directly</p></div>
+  </div>
+
+  <div class="pagenav">
+    <a class="prev" href="section-b.html"><span class="lbl">← Back</span>Section B · Comparative Analysis</a>
+    <a class="next" href="section-d.html"><span class="lbl">Next →</span>Section D · Real-World Applications</a>
+  </div>
+
+</main>
+
+<footer>
+  <div>Shah &amp; Anchor Kutchhi Engineering College · NLP (CMCOR1PE301.1) · CCE Activity I — Knowledge Artifact Repository</div>
+  <div style="margin-top:10px;">Prepared by <strong>Mohammad Sameer Musani</strong> &amp; <strong>Dhairya Siyal</strong> · Group of 2</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section B · Comparative Analysis — NLP Knowledge Repository</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">NLP <span>Knowledge Repository</span> · CCE-1</a>
+  <button class="navtoggle">Menu</button>
+  <ul>
+    <li><a href="index.html" class="link">Home</a></li>
+    <li><a href="section-a.html" class="link">A · Concepts</a></li>
+    <li><a href="section-b.html" class="link active">B · Comparisons</a></li>
+    <li><a href="section-c.html" class="link">C · Workflows</a></li>
+    <li><a href="section-d.html" class="link">D · Applications</a></li>
+    <li><a href="section-e.html" class="link">E · Research</a></li>
+    <li><a href="sustainability.html" class="link">Sustainability</a></li>
+    <li><a href="contribution.html" class="link">Contributions</a></li>
+    <li><a href="https://github.com/musanisameer668-creator/NPL-HOSPITAL-CHATBOT" target="_blank" rel="noopener" class="gh-btn"><svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></li>
+  </ul>
+</nav>
+
+<div class="pagehead">
+  <div class="eyebrow">Repository Structure · Section B</div>
+  <h1><span class="sec-num">B ·</span>Comparative Analysis<span class="mr">तुलनात्मक विश्लेषण</span></h1>
+  <p class="lede">Three comparisons, each judged on working mechanism, computational complexity, strengths, weaknesses, and where it fits in our chatbot's pipeline.</p>
+</div>
+
+<main>
+
+  <div class="compare">
+    <div class="head">Stemming vs Lemmatization <span>choosing how to normalize Marathi/English patient text</span></div>
+    <table>
+      <tr><th>Criteria</th><th>Stemming</th><th>Lemmatization</th></tr>
+      <tr><td>Working mechanism</td><td>Rule-based suffix stripping, no grammar knowledge.</td><td>Dictionary + POS-aware reduction to a valid base word.</td></tr>
+      <tr><td>Computational complexity</td><td>Very low — simple string rules.</td><td>Higher — needs a lexicon/morphological analyzer.</td></tr>
+      <tr><td>Strengths</td><td>Fast, no resources needed, fine for quick keyword matching.</td><td>Linguistically accurate, safer for a language as inflected as Marathi.</td></tr>
+      <tr><td>Weaknesses</td><td>Produces malformed roots; unreliable for Marathi without a custom stemmer.</td><td>Slower; depends on availability of a good Marathi lexical resource.</td></tr>
+      <tr><td>Suitable applications</td><td>Quick English keyword search over FAQs.</td><td>Our chatbot's intent parser, where meaning must stay intact.</td></tr>
+    </table>
+  </div>
+
+  <div class="compare">
+    <div class="head">TF vs TF-IDF <span>weighting words for intent scoring</span></div>
+    <table>
+      <tr><th>Criteria</th><th>TF</th><th>TF-IDF</th></tr>
+      <tr><td>Working mechanism</td><td>Counts term frequency within one query.</td><td>Multiplies TF by how rare the term is across all past queries.</td></tr>
+      <tr><td>Computational complexity</td><td>O(n) per document, minimal memory.</td><td>Slightly higher — needs corpus-wide document frequency stats.</td></tr>
+      <tr><td>Strengths</td><td>Simple, cheap, works with very small data.</td><td>Filters out generic words automatically; better discrimination.</td></tr>
+      <tr><td>Weaknesses</td><td>Common words dominate unless stop-words are removed first.</td><td>Needs a representative historical query log to be accurate.</td></tr>
+      <tr><td>Suitable applications</td><td>Prototyping on day one with almost no data.</td><td>Production department-routing classifier once we have query logs.</td></tr>
+    </table>
+  </div>
+
+  <div class="compare">
+    <div class="head">Word2Vec vs FastText <span>embeddings for a morphologically rich language</span></div>
+    <table>
+      <tr><th>Criteria</th><th>Word2Vec</th><th>FastText</th></tr>
+      <tr><td>Working mechanism</td><td>Learns one vector per whole word from context.</td><td>Learns vectors for character n-grams and sums them per word.</td></tr>
+      <tr><td>Computational complexity</td><td>Lower memory, faster training.</td><td>Higher memory (n-gram tables), slightly slower training.</td></tr>
+      <tr><td>Strengths</td><td>Strong semantic analogies on well-represented words.</td><td>Handles Marathi's many inflected forms and unseen/rare words gracefully.</td></tr>
+      <tr><td>Weaknesses</td><td>Fails on out-of-vocabulary and rare inflected Marathi words.</td><td>Larger model footprint on constrained hospital servers.</td></tr>
+      <tr><td>Suitable applications</td><td>English-only FAQ matching.</td><td>Our Marathi query understanding module, given heavy inflection.</td></tr>
+    </table>
+  </div>
+
+  <div class="pagenav">
+    <a class="prev" href="section-a.html"><span class="lbl">← Back</span>Section A · Concept Cards</a>
+    <a class="next" href="section-c.html"><span class="lbl">Next →</span>Section C · Workflow Diagrams</a>
+  </div>
+
+</main>
+
+<footer>
+  <div>Shah &amp; Anchor Kutchhi Engineering College · NLP (CMCOR1PE301.1) · CCE Activity I — Knowledge Artifact Repository</div>
+  <div style="margin-top:10px;">Prepared by <strong>Mohammad Sameer Musani</strong> &amp; <strong>Dhairya Siyal</strong> · Group of 2</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
